@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сұлтан &amp; Гүлжаз — Үйлену тойына шақыру</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Marck+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FBF5EC;
+    --ivory-deep:#F1E6D6;
+    --wine:#5B1F2E;
+    --wine-deep:#3B141F;
+    --gold:#B4884B;
+    --gold-light:#D9B77E;
+    --ink:#2A211D;
+    --max-w:920px;
+    --ease:cubic-bezier(.22,.9,.32,1);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'PT Serif', Georgia, serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  h1,h2,h3, .display{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--wine-deep);
+  }
+  .script{
+    font-family:'Marck Script', cursive;
+    font-weight:400;
+  }
+  .eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    font-size:0.95rem;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:500;
+  }
+
+  a{color:var(--wine);}
+
+  .wrap{max-width:var(--max-w); margin:0 auto; padding:0 24px;}
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity 0.9s var(--ease), transform 0.9s var(--ease);}
+  .reveal.is-visible{opacity:1; transform:none;}
+
+  /* ---------- divider ---------- */
+  .divider{display:flex; align-items:center; justify-content:center; gap:14px; margin:0 auto; width:100%; max-width:340px;}
+  .divider__line{flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--gold-light), transparent);}
+  .divider__mark{width:9px; height:9px; border:1px solid var(--gold); transform:rotate(45deg); flex:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:64px 24px 48px;
+    position:relative;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(180,136,75,0.10), transparent 60%),
+      var(--ivory);
+    overflow:hidden;
+  }
+  .hero__frame{width:min(340px, 78vw); margin-bottom:6px;}
+  .hero__frame path{
+    fill:none; stroke:var(--gold); stroke-width:1.4; stroke-linecap:round;
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw 2.6s var(--ease) forwards 0.3s;
+  }
+  .hero__frame ellipse{ fill:var(--gold); opacity:0; animation:leafIn 0.6s ease forwards; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes leafIn{ to{ opacity:0.9; } }
+
+  .hero__eyebrow{margin-bottom:18px;}
+  .hero__names{
+    font-size:clamp(3.2rem, 11vw, 5.6rem);
+    line-height:1;
+    color:var(--wine);
+    margin:6px 0 4px;
+  }
+  .hero__amp{color:var(--gold); font-size:0.6em; vertical-align:middle; margin:0 0.12em;}
+  .hero__date{
+    margin-top:22px;
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(1.15rem, 3vw, 1.5rem);
+    letter-spacing:0.08em;
+    color:var(--ink);
+  }
+  .hero__date strong{color:var(--wine-deep); font-weight:600;}
+  .hero__hosts{
+    margin-top:10px;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1rem;
+    letter-spacing:0.06em;
+    color:var(--gold);
+  }
+  .hero__hosts strong{color:var(--wine-deep); font-weight:600;}
+  .hero__scroll{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    font-family:'Cormorant Garamond',serif; font-size:0.85rem; letter-spacing:0.25em; text-transform:uppercase;
+    color:var(--gold); opacity:0.85;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .hero__scroll::after{
+    content:""; width:1px; height:26px; background:var(--gold-light);
+    animation:scrollPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollPulse{ 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+  /* ---------- intro line ---------- */
+  .intro{padding:90px 24px; text-align:center;}
+  .intro p{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.25rem, 3vw, 1.6rem);
+    color:var(--wine-deep);
+    max-width:640px;
+    margin:26px auto 0;
+    line-height:1.55;
+  }
+
+  /* ---------- section shell ---------- */
+  .section{padding:70px 24px 90px;}
+  .section--tint{background:var(--ivory-deep);}
+  .section__head{text-align:center; margin-bottom:52px;}
+  .section__title{font-size:clamp(2rem, 5vw, 2.6rem); margin-top:10px;}
+
+  /* ---------- details cards ---------- */
+  .details{
+    display:grid; grid-template-columns:1fr 1fr; gap:22px;
+    max-width:640px; margin:0 auto;
+  }
+  @media (max-width:560px){ .details{grid-template-columns:1fr;} }
+  .card{
+    background:var(--ivory);
+    border:1px solid var(--gold-light);
+    padding:34px 26px;
+    text-align:center;
+    position:relative;
+  }
+  .card__icon{width:34px; height:34px; margin:0 auto 16px; color:var(--gold);}
+  .card__icon svg{width:100%; height:100%; fill:none; stroke:currentColor; stroke-width:1.3;}
+  .card__label{font-size:0.82rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); font-family:'Cormorant Garamond',serif; font-weight:500;}
+  .card__value{font-family:'Cormorant Garamond', serif; font-size:1.5rem; color:var(--wine-deep); margin-top:10px; line-height:1.3;}
+  .card__sub{font-size:0.95rem; color:var(--ink); opacity:0.75; margin-top:6px;}
+  .card__link{
+    display:inline-block; margin-top:16px; font-family:'Cormorant Garamond', serif;
+    font-size:0.95rem; letter-spacing:0.05em; color:var(--wine); text-decoration:none;
+    border-bottom:1px solid var(--gold); padding-bottom:2px;
+  }
+  .card__link:hover{color:var(--gold);}
+
+  /* ---------- countdown ---------- */
+  .countdown{display:flex; justify-content:center; gap:clamp(10px,3vw,26px); margin:46px auto 0; flex-wrap:wrap;}
+  .countdown__unit{text-align:center; min-width:64px;}
+  .countdown__num{
+    font-family:'Cormorant Garamond', serif; font-weight:600; font-size:clamp(2rem,6vw,2.8rem);
+    color:var(--wine); line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .countdown__label{font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-top:8px;}
+  .countdown__sep{font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--gold-light); align-self:flex-start; margin-top:4px;}
+
+  /* ---------- timeline (кештің бағдарламасы) ---------- */
+  .timeline{position:relative; max-width:560px; margin:0 auto; padding-left:0;}
+  .timeline::before{
+    content:""; position:absolute; left:64px; top:6px; bottom:6px; width:1px;
+    background:linear-gradient(180deg, transparent, var(--gold-light) 8%, var(--gold-light) 92%, transparent);
+  }
+  @media (max-width:480px){ .timeline::before{left:52px;} }
+  .timeline__item{position:relative; display:grid; grid-template-columns:64px 1fr; gap:0 26px; padding:20px 0;}
+  @media (max-width:480px){ .timeline__item{grid-template-columns:52px 1fr;} }
+  .timeline__time{
+    font-family:'Cormorant Garamond', serif; font-weight:600; font-size:1.15rem; color:var(--wine);
+    text-align:right; padding-top:2px;
+  }
+  .timeline__dot{
+    position:absolute; left:60px; top:26px; width:9px; height:9px; border-radius:50%;
+    background:var(--gold); box-shadow:0 0 0 4px var(--ivory-deep);
+  }
+  @media (max-width:480px){ .timeline__dot{left:48px;} }
+  .timeline__body{padding-top:1px;}
+  .timeline__title{font-family:'Cormorant Garamond', serif; font-size:1.25rem; color:var(--wine-deep); font-weight:600;}
+  .timeline__desc{font-size:0.95rem; color:var(--ink); opacity:0.75; margin-top:2px;}
+
+  /* ---------- location ---------- */
+  .location{text-align:center;}
+  .location__venue{font-size:clamp(1.7rem, 4vw, 2.2rem); color:var(--wine); margin-top:8px;}
+  .location__addr{margin-top:10px; font-size:1.05rem; opacity:0.8;}
+  .location__photo{
+    max-width:560px; margin:30px auto 0;
+    border:1px solid var(--gold-light); padding:8px; background:var(--ivory);
+  }
+  .location__photo img{display:block; width:100%; height:auto;}
+  .location__actions{display:flex; gap:16px; justify-content:center; margin-top:30px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Cormorant Garamond', serif; font-size:1.05rem; letter-spacing:0.03em;
+    padding:13px 30px; border:1px solid var(--wine); color:var(--wine-deep);
+    text-decoration:none; background:transparent; cursor:pointer;
+    transition:background 0.35s var(--ease), color 0.35s var(--ease);
+  }
+  .btn:hover{background:var(--wine); color:var(--ivory);}
+  .btn--gold{border-color:var(--gold); color:var(--wine-deep);}
+  .btn--gold:hover{background:var(--gold); color:var(--ivory);}
+
+  /* ---------- rsvp ---------- */
+  .rsvp{max-width:520px; margin:0 auto;}
+  .field{margin-bottom:22px; text-align:left;}
+  .field label{
+    display:block; font-family:'Cormorant Garamond', serif; letter-spacing:0.14em; text-transform:uppercase;
+    font-size:0.78rem; color:var(--gold); margin-bottom:8px;
+  }
+  .field input[type="text"], .field textarea, .field select{
+    width:100%; font-family:'PT Serif', serif; font-size:1rem; color:var(--ink);
+    background:var(--ivory); border:none; border-bottom:1px solid var(--gold-light);
+    padding:11px 4px; outline:none; transition:border-color 0.3s var(--ease);
+  }
+  .field input[type="text"]:focus, .field textarea:focus, .field select:focus{border-bottom-color:var(--wine);}
+  .field textarea{resize:vertical; min-height:70px;}
+  .radio-row{display:flex; gap:22px; flex-wrap:wrap;}
+  .radio-opt{display:flex; align-items:center; gap:8px; font-size:0.98rem;}
+  .radio-opt input{accent-color:var(--wine);}
+  .rsvp__submit{width:100%; margin-top:8px;}
+  .rsvp__note{text-align:center; font-size:0.88rem; opacity:0.65; margin-top:18px;}
+  .rsvp__thanks{
+    display:none; text-align:center; padding:26px; border:1px solid var(--gold-light); margin-top:26px;
+    font-family:'Cormorant Garamond', serif; font-size:1.2rem; color:var(--wine-deep);
+  }
+  .rsvp__thanks.is-shown{display:block;}
+
+  /* ---------- footer ---------- */
+  .footer{padding:70px 24px 54px; text-align:center;}
+  .footer__mono{font-size:2.4rem; color:var(--gold); margin-bottom:10px;}
+  .footer__line{font-size:0.85rem; opacity:0.55; margin-top:18px; letter-spacing:0.05em;}
+
+  /* ---------- couple photo ---------- */
+  .couple-photo{padding:0 24px; display:flex; justify-content:center;}
+  .couple-photo__frame{
+    max-width:640px; width:100%;
+    border:1px solid var(--gold-light);
+    padding:10px;
+    background:var(--ivory);
+  }
+  .couple-photo__frame img{
+    display:block; width:100%; height:auto;
+  }
+
+  /* ---------- lang switch ---------- */
+  .lang-switch{
+    position:fixed; top:16px; right:16px; z-index:60;
+    display:flex; align-items:center; gap:8px;
+    font-family:'Cormorant Garamond', serif; font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase;
+    background:rgba(251,245,236,0.85); backdrop-filter:blur(4px);
+    padding:6px 10px; border:1px solid var(--gold-light);
+  }
+  .lang-switch a{ color:var(--gold); text-decoration:none; opacity:0.65; transition:opacity 0.25s var(--ease);}
+  .lang-switch a:hover{opacity:1;}
+  .lang-switch a.is-active{ color:var(--wine-deep); opacity:1; font-weight:600; border-bottom:1px solid var(--wine-deep); pointer-events:none;}
+  .lang-switch__sep{color:var(--gold-light);}
+
+  :focus-visible{outline:2px solid var(--wine); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+  <nav class="lang-switch" aria-label="Тіл таңдау">
+    <a href="index-rus.html">RU</a>
+    <span class="lang-switch__sep">·</span>
+    <a href="index.html" class="is-active">ҚАЗ</a>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <svg class="hero__frame" viewBox="0 0 400 160" aria-hidden="true">
+      <path d="M40,80 C60,40 100,20 150,26 C170,28 185,40 196,58" />
+      <path d="M40,80 C60,120 100,140 150,134 C170,132 185,120 196,102" />
+      <path d="M360,80 C340,40 300,20 250,26 C230,28 215,40 204,58" />
+      <path d="M360,80 C340,120 300,140 250,134 C230,132 215,120 204,102" />
+      <g fill="#B4884B">
+        <ellipse cx="70" cy="52" rx="7" ry="3.2" transform="rotate(-35 70 52)" style="animation-delay:1.1s"/>
+        <ellipse cx="95" cy="34" rx="7" ry="3.2" transform="rotate(-15 95 34)" style="animation-delay:1.3s"/>
+        <ellipse cx="125" cy="27" rx="7" ry="3.2" transform="rotate(-2 125 27)" style="animation-delay:1.5s"/>
+        <ellipse cx="70" cy="108" rx="7" ry="3.2" transform="rotate(35 70 108)" style="animation-delay:1.2s"/>
+        <ellipse cx="95" cy="126" rx="7" ry="3.2" transform="rotate(15 95 126)" style="animation-delay:1.4s"/>
+        <ellipse cx="125" cy="133" rx="7" ry="3.2" transform="rotate(2 125 133)" style="animation-delay:1.6s"/>
+        <ellipse cx="330" cy="52" rx="7" ry="3.2" transform="rotate(35 330 52)" style="animation-delay:1.1s"/>
+        <ellipse cx="305" cy="34" rx="7" ry="3.2" transform="rotate(15 305 34)" style="animation-delay:1.3s"/>
+        <ellipse cx="275" cy="27" rx="7" ry="3.2" transform="rotate(2 275 27)" style="animation-delay:1.5s"/>
+        <ellipse cx="330" cy="108" rx="7" ry="3.2" transform="rotate(-35 330 108)" style="animation-delay:1.2s"/>
+        <ellipse cx="305" cy="126" rx="7" ry="3.2" transform="rotate(-15 305 126)" style="animation-delay:1.4s"/>
+        <ellipse cx="275" cy="133" rx="7" ry="3.2" transform="rotate(-2 275 133)" style="animation-delay:1.6s"/>
+      </g>
+    </svg>
+
+    <p class="eyebrow hero__eyebrow">Сізді осы күнді бізбен бөлісуге шақырамыз</p>
+    <h1 class="hero__names">Сұлтан<span class="script hero__amp">&amp;</span>Гүлжаз</h1>
+    <p class="hero__date">2026 жылғы 2 қазан · <strong>18:00</strong> · Ай-ғасыр</p>
+    <p class="hero__hosts">Той иелері: <strong>Бахыт &amp; Ляззат</strong></p>
+
+    <span class="hero__scroll">Төмен қарай</span>
+  </header>
+
+  <!-- ===================== INTRO ===================== -->
+  <section class="couple-photo reveal">
+    <div class="couple-photo__frame">
+      <img src="photo.jpg" alt="Сұлтан және Гүлжаз" loading="lazy">
+    </div>
+  </section>
+
+  <section class="intro reveal">
+    <div class="divider"><span class="divider__line"></span><span class="divider__mark"></span><span class="divider__line"></span></div>
+    <p>Екі отбасы, екі жүрек, енді бірге жазылатын бір оқиға. Осы кешті сіз секілді ең жақын адамдарымызбен бірге қарсы алғанымызға қуаныштымыз.</p>
+  </section>
+
+  <!-- ===================== DETAILS + COUNTDOWN ===================== -->
+  <section class="section section--tint">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Қашан және қайда</p>
+        <h2 class="section__title">Той мерекесінің егжей-тегжейі</h2>
+      </div>
+
+      <div class="details reveal">
+        <div class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 9h18M7 3v4M17 3v4"/></svg>
+          </div>
+          <p class="card__label">Күні мен уақыты</p>
+          <p class="card__value">2026 жылғы 2 қазан</p>
+          <p class="card__sub">Басталуы 18:00-де</p>
+          <a class="card__link" id="add-to-calendar" href="#">Күнтізбеге қосу</a>
+        </div>
+        <div class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+          </div>
+          <p class="card__label">Орны</p>
+          <p class="card__value">Ай-ғасыр</p>
+          <p class="card__sub">Тойхана, Шымкент</p>
+          <a class="card__link" href="#location">Қалай жетуге болады</a>
+        </div>
+      </div>
+
+      <div class="countdown reveal" id="countdown" aria-live="polite">
+        <div class="countdown__unit"><div class="countdown__num" id="cd-days">00</div><div class="countdown__label">күн</div></div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit"><div class="countdown__num" id="cd-hours">00</div><div class="countdown__label">сағат</div></div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit"><div class="countdown__num" id="cd-min">00</div><div class="countdown__label">минут</div></div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit"><div class="countdown__num" id="cd-sec">00</div><div class="countdown__label">секунд</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROGRAMME ===================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Кеш қалай өтеді</p>
+        <h2 class="section__title">Кештің бағдарламасы</h2>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="timeline__item">
+          <div class="timeline__time">17:30</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <p class="timeline__title">Қонақтарды қарсы алу</p>
+            <p class="timeline__desc">Кіреберісте қарсы алу, үстелдерге орналастыру</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__time">18:00</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <p class="timeline__title">Жас жұбайлардың шығуы</p>
+            <p class="timeline__desc">Кештің ресми ашылуы</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__time">18:30</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <p class="timeline__title">Банкет және құттықтаулар</p>
+            <p class="timeline__desc">Туған-туыстар мен жақындардың тосттары</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__time">20:00</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <p class="timeline__title">Мерекелік бағдарлама</p>
+            <p class="timeline__desc">Музыка, билер, байқаулар</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__time">22:00</div>
+          <div class="timeline__dot"></div>
+          <div class="timeline__body">
+            <p class="timeline__title">Мерекелік торт</p>
+            <p class="timeline__desc">Тәтті дастархан және қорытынды құттықтаулар</p>
+          </div>
+        </div>
+      </div>
+      <p class="rsvp__note reveal">* Нақты уақыт сәл өзгеруі мүмкін — өзекті бағдарламаны той күні қайта хабарлаймыз.</p>
+    </div>
+  </section>
+
+  <!-- ===================== LOCATION ===================== -->
+  <section class="section section--tint location" id="location">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Қалай жетуге болады</p>
+        <h2 class="section__title">Өтетін орны</h2>
+      </div>
+      <div class="reveal">
+        <p class="location__venue script">Ай-ғасыр</p>
+        <p class="location__addr">Тойхана · Шымкент · басталуы 18:00 · картадан көру үшін төмендегі түймені басыңыз</p>
+        <div class="location__photo">
+          <img src="venue.jpg" alt="«Ай-ғасыр» тойханасы" loading="lazy">
+        </div>
+        <div class="location__actions">
+          <a class="btn" href="https://2gis.kz/shymkent/geo/70000001026075043" target="_blank" rel="noopener">2ГИС-те ашу</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RSVP ===================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Жауабыңызды күтеміз</p>
+        <h2 class="section__title">Қатысуыңызды растаңыз</h2>
+      </div>
+
+      <form class="rsvp reveal" id="rsvp-form">
+        <div class="field">
+          <label for="r-name">Аты-жөніңіз</label>
+          <input type="text" id="r-name" name="name" required placeholder="Аты және тегі">
+        </div>
+        <div class="field">
+          <label>Келе аласыз ба?</label>
+          <div class="radio-row">
+            <span class="radio-opt"><input type="radio" name="attend" value="Иә, боламын" id="a-yes" checked><label for="a-yes">Иә, боламын</label></span>
+            <span class="radio-opt"><input type="radio" name="attend" value="Өкінішке орай, жоқ" id="a-no"><label for="a-no">Келе алмаймын</label></span>
+            <span class="radio-opt"><input type="radio" name="attend" value="Әзірше білмеймін" id="a-maybe"><label for="a-maybe">Әзірше білмеймін</label></span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r-guests">Қонақтар саны (сізбен бірге)</label>
+          <select id="r-guests" name="guests">
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="r-note">Жас жұбайларға тілек (міндетті емес)</label>
+          <textarea id="r-note" name="note" placeholder="Жылы лебіздеріңіз..."></textarea>
+        </div>
+        <button type="submit" class="btn rsvp__submit" id="rsvp-submit-btn">Жауапты жіберу</button>
+        <p class="rsvp__note">Жауабыңыз автоматты түрде сақталады. Сұрақтар бойынша телефон: <a href="tel:+77081161996">+7 708 116 19 96</a></p>
+      </form>
+
+      <div class="rsvp__thanks" id="rsvp-thanks">Рақмет! Жауабыңыз қабылданды — сізбен кездесуді асыға күтеміз 💛</div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="divider"><span class="divider__line"></span><span class="divider__mark"></span><span class="divider__line"></span></div>
+    <p class="footer__mono script">С &amp; Г</p>
+    <p class="display" style="font-size:1.2rem;">Ыстық ықылас пен алғыспен</p>
+    <p class="footer__line">2026 жылғы 2 қазан · Ай-ғасыр, Шымкент</p>
+  </footer>
+
+<script type="module">
+  // ===================== FIREBASE (общая база RSVP-ответов — та же коллекция, что и в RU-версии) =====================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDaRQ1mBNB25qo-J4LmwgWv0ccIXaS1cW8",
+    authDomain: "sultang-ba56d.firebaseapp.com",
+    projectId: "sultang-ba56d",
+    storageBucket: "sultang-ba56d.firebasestorage.app",
+    messagingSenderId: "986255376197",
+    appId: "1:986255376197:web:5620304caef3ba5a0b882c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // RSVP -> Firestore
+  document.getElementById('rsvp-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = document.getElementById('rsvp-submit-btn');
+    const name = document.getElementById('r-name').value.trim();
+    const attend = document.querySelector('input[name="attend"]:checked').value;
+    const guests = document.getElementById('r-guests').value;
+    const note = document.getElementById('r-note').value.trim();
+
+    btn.disabled = true;
+    btn.textContent = 'Жіберілуде...';
+
+    try{
+      await addDoc(collection(db, 'rsvp'), {
+        name, attend, guests, note,
+        createdAt: serverTimestamp()
+      });
+      document.getElementById('rsvp-form').style.display = 'none';
+      document.getElementById('rsvp-thanks').classList.add('is-shown');
+    }catch(err){
+      console.error(err);
+      btn.disabled = false;
+      btn.textContent = 'Жауапты жіберу';
+      alert('Жауапты жіберу мүмкін болмады. Интернет байланысын тексеріп, қайта көріңіз немесе бізге тікелей қоңырау шалыңыз.');
+    }
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  // Countdown — 2 октября 2026, 18:00 (Астана, UTC+5) => 13:00 UTC
+  const target = new Date('2026-10-02T13:00:00Z').getTime();
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    const now = Date.now();
+    let diff = Math.max(0, target - now);
+    const d = Math.floor(diff / 86400000); diff -= d*86400000;
+    const h = Math.floor(diff / 3600000); diff -= h*3600000;
+    const m = Math.floor(diff / 60000); diff -= m*60000;
+    const s = Math.floor(diff / 1000);
+    document.getElementById('cd-days').textContent = pad(d);
+    document.getElementById('cd-hours').textContent = pad(h);
+    document.getElementById('cd-min').textContent = pad(m);
+    document.getElementById('cd-sec').textContent = pad(s);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Add to calendar (ICS via data URI)
+  document.getElementById('add-to-calendar').addEventListener('click', function(e){
+    e.preventDefault();
+    const ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Sultan-Gulzhaz-Wedding//KZ',
+      'BEGIN:VEVENT',
+      'UID:' + Date.now() + '@sultan-gulzhaz-wedding',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z',
+      'DTSTART:20261002T130000Z',
+      'DTEND:20261002T180000Z',
+      'SUMMARY:Сұлтан мен Гүлжаздың үйлену тойы',
+      'LOCATION:Ай-ғасыр, Шымкент',
+      'DESCRIPTION:Сізді Сұлтан мен Гүлжаздың үйлену тойына шақырамыз',
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'toi-sultan-gulzhaz.ics';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+</script>
+</body>
+</html>

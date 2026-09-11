@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Список гостей — Султан &amp; Гулжаз</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600&family=PT+Serif:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FBF5EC; --ivory-deep:#F1E6D6; --wine:#5B1F2E; --wine-deep:#3B141F;
+    --gold:#B4884B; --gold-light:#D9B77E; --ink:#2A211D;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ivory); color:var(--ink); font-family:'PT Serif', Georgia, serif;}
+  .wrap{max-width:900px; margin:0 auto; padding:56px 24px 90px;}
+  h1{font-family:'Cormorant Garamond', serif; color:var(--wine-deep); font-size:2.2rem; margin:0 0 6px;}
+  .sub{color:var(--gold); font-size:0.85rem; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:36px;}
+
+  .stats{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:36px;}
+  .stat{background:var(--ivory-deep); border:1px solid var(--gold-light); padding:16px 22px; min-width:140px;}
+  .stat__num{font-family:'Cormorant Garamond', serif; font-size:2rem; color:var(--wine); font-weight:600;}
+  .stat__label{font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink); opacity:0.65; margin-top:4px;}
+
+  table{width:100%; border-collapse:collapse; background:var(--ivory);}
+  th, td{text-align:left; padding:12px 14px; border-bottom:1px solid var(--gold-light); font-size:0.95rem; vertical-align:top;}
+  th{font-family:'Cormorant Garamond', serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.78rem; color:var(--gold);}
+  tr:hover td{background:var(--ivory-deep);}
+  .tag{display:inline-block; padding:3px 10px; font-size:0.8rem; border-radius:2px;}
+  .tag--yes{background:#E4EFE0; color:#3B6B2E;}
+  .tag--no{background:#F3E0E0; color:#8A2E2E;}
+  .tag--maybe{background:#F1E6D6; color:var(--gold);}
+
+  .state{text-align:center; padding:60px 20px; color:var(--ink); opacity:0.6; font-family:'Cormorant Garamond', serif; font-size:1.2rem;}
+  .gate{max-width:360px; margin:120px auto; text-align:center;}
+  .gate input{width:100%; padding:12px; font-size:1rem; border:1px solid var(--gold-light); background:var(--ivory-deep); margin-top:16px;}
+  .gate button{margin-top:14px; padding:12px 28px; background:var(--wine); color:var(--ivory); border:none; font-family:'Cormorant Garamond', serif; font-size:1.05rem; cursor:pointer;}
+  #app{display:none;}
+</style>
+</head>
+<body>
+
+  <div class="gate" id="gate">
+    <h1>Список гостей</h1>
+    <p class="sub" style="color:var(--ink); opacity:0.6; letter-spacing:0;">Страница только для организаторов</p>
+    <input type="password" id="gate-pass" placeholder="Введите код доступа">
+    <br>
+    <button id="gate-btn">Войти</button>
+  </div>
+
+  <div class="wrap" id="app">
+    <h1>Список гостей</h1>
+    <p class="sub">Султан &amp; Гулжаз · 2 октября 2026 · Ай-ғасыр, Шымкент</p>
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="stat__num" id="s-total">0</div><div class="stat__label">Ответов</div></div>
+      <div class="stat"><div class="stat__num" id="s-yes">0</div><div class="stat__label">Придут</div></div>
+      <div class="stat"><div class="stat__num" id="s-guests">0</div><div class="stat__label">Гостей всего</div></div>
+    </div>
+
+    <table id="table" style="display:none;">
+      <thead>
+        <tr><th>Имя</th><th>Присутствие</th><th>Гостей</th><th>Пожелание</th></tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <p class="state" id="empty-state" style="display:none;">Ответов пока нет — как только гости начнут отвечать, список появится здесь.</p>
+  </div>
+
+<script type="module">
+  // Тот же проект Firebase, что и на основном сайте-приглашении — вставьте те же ключи.
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+  import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDaRQ1mBNB25qo-J4LmwgWv0ccIXaS1cW8",
+    authDomain: "sultang-ba56d.firebaseapp.com",
+    projectId: "sultang-ba56d",
+    storageBucket: "sultang-ba56d.firebasestorage.app",
+    messagingSenderId: "986255376197",
+    appId: "1:986255376197:web:5620304caef3ba5a0b882c"
+  };
+
+  // Простой код-пароль, чтобы случайные гости не открыли список по прямой ссылке.
+  // Это не настоящая защита данных (см. пояснение в чате) — просто отсечка от случайных заходов.
+  const ACCESS_CODE = "11223344";
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  function attendTag(attend){
+    if (attend === 'Да, буду') return '<span class="tag tag--yes">Придёт</span>';
+    if (attend === 'К сожалению, нет') return '<span class="tag tag--no">Не придёт</span>';
+    return '<span class="tag tag--maybe">Не уверен(а)</span>';
+  }
+
+  function startListening(){
+    const q = query(collection(db, 'rsvp'), orderBy('createdAt', 'desc'));
+    onSnapshot(q, (snapshot) => {
+      const rows = [];
+      let total = 0, yes = 0, guestSum = 0;
+
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        total++;
+        if (d.attend === 'Да, буду') { yes++; guestSum += Number(d.guests || 1); }
+        rows.push(d);
+      });
+
+      document.getElementById('s-total').textContent = total;
+      document.getElementById('s-yes').textContent = yes;
+      document.getElementById('s-guests').textContent = guestSum;
+
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = rows.map(d => `
+        <tr>
+          <td>${(d.name || '').replace(/</g,'&lt;')}</td>
+          <td>${attendTag(d.attend)}</td>
+          <td>${d.guests || 1}</td>
+          <td>${(d.note || '—').replace(/</g,'&lt;')}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('table').style.display = total ? 'table' : 'none';
+      document.getElementById('empty-state').style.display = total ? 'none' : 'block';
+    }, (err) => {
+      console.error(err);
+      document.getElementById('empty-state').style.display = 'block';
+      document.getElementById('empty-state').textContent = 'Не удалось загрузить список. Проверьте настройки Firebase.';
+    });
+  }
+
+  document.getElementById('gate-btn').addEventListener('click', () => {
+    const val = document.getElementById('gate-pass').value.trim();
+    if (val === ACCESS_CODE) {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      startListening();
+    } else {
+      alert('Неверный код доступа');
+    }
+  });
+</script>
+</body>
+</html>
